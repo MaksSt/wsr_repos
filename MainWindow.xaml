@@ -26,22 +26,22 @@
             FontFamily="Noto Sans"
             FontWeight="Medium" 
             Foreground="White"
-            Margin="295,15,330,0"/>
+            Margin="295,15,340,355"/>
         <TextBlock Text="Username"
             FontSize="20"
             FontFamily="Noto Sans"
             FontWeight="Medium" 
             Foreground="White"
-            Margin="300,100,0,0"/>
+            Margin="248,100,390,322"/>
         <TextBlock Text="Password"
             FontSize="20"
             FontFamily="Noto Sans"
             FontWeight="Medium" 
             Foreground="White"
-            Margin="300,155,0,0"/>
+            Margin="248,180,390,246"/>
         <TextBox x:Name="txtUSER"
-            Margin="300,130,340,295"
-            FontSize="15"
+            Margin="248,133,293,277"
+            FontSize="26"
             FontFamily="Noto Sans"
             FontWeight="Light"
             BorderThickness="0,0,0,1"
@@ -50,11 +50,10 @@
             CaretBrush="LightGray"
             BorderBrush="DarkGray"
             SelectionBrush="#FFB7B7B7"
-            Height="25"
             />
         <TextBox x:Name="txtPASSWORD"
-            Margin="300,180,340,245"
-            FontSize="15"
+            Margin="248,214,293,195"
+            FontSize="26"
             FontFamily="Noto Sans"
             FontWeight="Light"
             BorderThickness="0,0,0,1"
@@ -62,7 +61,6 @@
             Foreground="White"
             CaretBrush="LightGray"
             BorderBrush="DarkGray"
-            Height="25"
             />
         <Button x:Name="btnLogin"
             Background="#FF484848"
@@ -71,7 +69,7 @@
             BorderThickness="0"
             Foreground="White"
             FontSize="20"
-            Margin="280,220,320,180"
+            Margin="216,294,261,75"
             Click="btnLogin_Click">
         </Button>
     </Grid>
