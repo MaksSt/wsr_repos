@@ -28,24 +28,40 @@ namespace Login
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             string connectionString = @"Data Source=.\SQLEXPRESS;
-                          AttachDbFilename=c:\Users\student\Desktop\login_wsr\db\LoginDB.mdf;
+                          AttachDbFilename=localhost\MSSQLLocalDB;
                           Integrated Security=True;
-                          Connect Timeout=30;
-                          User Instance=True";
+                          Initial Catalog=LoginDB";
             SqlConnection sqlcon = new SqlConnection(connectionString);
-            string query = "Select * from tbl_login Where username = '" + txtUSER.Text.Trim() + "' and password = '" + txtPASSWORD.Text.Trim() + "'";
-            SqlDataAdapter sda = new SqlDataAdapter(query, sqlcon);
-            DataTable dtbl = new DataTable();
-            sda.Fill(dtbl);
-            if(dtbl.Rows.Count == 1)
+            try
             {
-                Panel objPanel = new Panel();
-                this.Hide();
-                objPanel.Show();
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                    string query = "Select * from tbl_login Where username=@Username AND password=@Password";
+                    SqlCommand sqlCmd = new SqlCommand(query, sqlcon);
+                    sqlCmd.CommandType = CommandType.Text;
+                    sqlCmd.Parameters.AddWithValue("@Username", txtUSER.Text);
+                    sqlCmd.Parameters.AddWithValue("@Password", txtPASSWORD.Text);
+                    int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
+                    if (count == 1)
+                    {
+                        Panel objPanel = new Panel();
+                        this.Hide();
+                        objPanel.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bad username or password");
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Bad username or password");
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                sqlcon.Close();
             }
         }
     }
