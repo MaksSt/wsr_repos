@@ -40,13 +40,16 @@ namespace Login
                     SqlCommand sqlCmd = new SqlCommand(query, sqlcon);
                     sqlCmd.CommandType = CommandType.Text;
                     sqlCmd.Parameters.AddWithValue("@Username", txtUSER.Text);
-                    sqlCmd.Parameters.AddWithValue("@Password", txtPASSWORD.Text);
+                    sqlCmd.Parameters.AddWithValue("@Password", txtPASSWORD.Password);
                     int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
                     if (count == 1)
                     {
-                        Panel objPanel = new Panel();
-                        this.Hide();
-                        objPanel.Show();
+                        
+                        this.blockCode.Visibility = System.Windows.Visibility.Visible;
+                        this.txtCode.Visibility = System.Windows.Visibility.Visible;
+                        //Panel objPanel = new Panel();
+                        //this.Hide();
+                        //objPanel.Show();
                     }
                     else
                     {

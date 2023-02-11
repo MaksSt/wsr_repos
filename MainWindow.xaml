@@ -33,6 +33,14 @@
             FontWeight="Medium" 
             Foreground="White"
             Margin="248,100,390,322"/>
+        <TextBlock Text="Code"
+            Name="blockCode"
+            Visibility="Collapsed"       
+            FontSize="20"
+            FontFamily="Noto Sans"
+            FontWeight="Medium" 
+            Foreground="White"
+            Margin="248,263,390,159"/>
         <TextBlock Text="Password"
             FontSize="20"
             FontFamily="Noto Sans"
@@ -51,7 +59,7 @@
             BorderBrush="DarkGray"
             SelectionBrush="#FFB7B7B7"
             />
-        <TextBox x:Name="txtPASSWORD"
+        <PasswordBox x:Name="txtPASSWORD"
             Margin="248,214,293,195"
             FontSize="26"
             FontFamily="Noto Sans"
@@ -62,6 +70,19 @@
             CaretBrush="LightGray"
             BorderBrush="DarkGray"
             />
+        <TextBox x:Name="txtCode"
+            Visibility="Collapsed"
+            Margin="248,289,293,121"
+            FontSize="26"
+            FontFamily="Noto Sans"
+            FontWeight="Light"
+            BorderThickness="0,0,0,1"
+            Background="Transparent"
+            Foreground="White"
+            CaretBrush="LightGray"
+            BorderBrush="DarkGray"
+            SelectionBrush="#FFB7B7B7"
+            />
         <Button x:Name="btnLogin"
             Background="#FF484848"
             Content="Login"
@@ -69,7 +90,7 @@
             BorderThickness="0"
             Foreground="White"
             FontSize="20"
-            Margin="216,294,261,75"
+            Margin="216,340,261,29"
             Click="btnLogin_Click">
         </Button>
     </Grid>
