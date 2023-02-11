@@ -27,8 +27,7 @@ namespace Login
         }
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            string connectionString = @"Data Source=.\SQLEXPRESS;
-                          AttachDbFilename=localhost\MSSQLLocalDB;
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;
                           Integrated Security=True;
                           Initial Catalog=LoginDB";
             SqlConnection sqlcon = new SqlConnection(connectionString);
@@ -37,7 +36,7 @@ namespace Login
                 if (sqlcon.State == ConnectionState.Closed)
                 {
                     sqlcon.Open();
-                    string query = "Select * from tbl_login Where username=@Username AND password=@Password";
+                    string query = "Select * from Login Where username=@Username AND password=@Password";
                     SqlCommand sqlCmd = new SqlCommand(query, sqlcon);
                     sqlCmd.CommandType = CommandType.Text;
                     sqlCmd.Parameters.AddWithValue("@Username", txtUSER.Text);
