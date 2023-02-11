@@ -47,7 +47,7 @@ namespace Login
                 if (sqlcon.State == ConnectionState.Closed)
                 {
                     sqlcon.Open();
-                    string query = "Select * from Login Where username=@Username AND password=@Password";
+                    string query = "SELECT COUNT(1) FROM Login WHERE username=@Username AND password=@Password";
                     SqlCommand sqlCmd = new SqlCommand(query, sqlcon);
                     sqlCmd.CommandType = CommandType.Text;
                     sqlCmd.Parameters.AddWithValue("@Username", txtUSER.Text);
@@ -86,7 +86,7 @@ namespace Login
                 if (code == theCode)
                 {
                     Panel objPanel = new Panel();
-                    this.Hide();
+                    this.Close();
                     objPanel.Show();
                 }
                 else
