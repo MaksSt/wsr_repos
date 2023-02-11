@@ -82,8 +82,10 @@
             CaretBrush="LightGray"
             BorderBrush="DarkGray"
             SelectionBrush="#FFB7B7B7"
+            PreviewTextInput="NumberValidationTextBox"
             />
         <Button x:Name="btnLogin"
+            Visibility="Visible"
             Background="#FF484848"
             Content="Login"
             Cursor="Hand"
@@ -92,6 +94,17 @@
             FontSize="20"
             Margin="216,340,261,29"
             Click="btnLogin_Click">
+        </Button>
+        <Button x:Name="btnLogin2"
+            Visibility="Collapsed"
+            Background="#FF484848"
+            Content="Login"
+            Cursor="Hand"
+            BorderThickness="0"
+            Foreground="White"
+            FontSize="20"
+            Margin="216,340,261,29"
+            Click="btnLogin2_Click">
         </Button>
     </Grid>
 </Window>

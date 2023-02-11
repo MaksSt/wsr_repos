@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace Login
 {
@@ -15,7 +16,11 @@ namespace Login
         {
             InitializeComponent();
         }
-
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -25,6 +30,12 @@ namespace Login
         {
             Application.Current.Shutdown();
         }
+        static int RandomValue()
+        {
+            Random rnd = new Random();
+            return rnd.Next(0, 100000);
+        }
+        public int code = RandomValue();
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;
@@ -44,12 +55,13 @@ namespace Login
                     int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
                     if (count == 1)
                     {
-                        
                         this.blockCode.Visibility = System.Windows.Visibility.Visible;
                         this.txtCode.Visibility = System.Windows.Visibility.Visible;
-                        //Panel objPanel = new Panel();
-                        //this.Hide();
-                        //objPanel.Show();
+                        MessageBox.Show($"Code = {code}");
+                        this.btnLogin.Visibility = System.Windows.Visibility.Collapsed;
+                        this.btnLogin2.Visibility = System.Windows.Visibility.Visible;
+                        this.txtUSER.IsEnabled = false;
+                        this.txtPASSWORD.IsEnabled = false;
                     }
                     else
                     {
@@ -65,6 +77,23 @@ namespace Login
             {
                 sqlcon.Close();
             }
+        }
+        private void btnLogin2_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtCode != null && !string.IsNullOrWhiteSpace(txtCode.Text))
+            {
+                int theCode = Convert.ToInt32(txtCode.Text);
+                if (code == theCode)
+                {
+                    Panel objPanel = new Panel();
+                    this.Hide();
+                    objPanel.Show();
+                }
+                else
+                    MessageBox.Show($"Code = {code}");
+            }
+            else
+                MessageBox.Show($"Code = {code}");
         }
     }
 }
