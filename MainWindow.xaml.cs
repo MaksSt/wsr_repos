@@ -27,7 +27,26 @@ namespace Login
         }
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            SqlConnection sqlcon = new SqlConnection();
+            string connectionString = @"Data Source=.\SQLEXPRESS;
+                          AttachDbFilename=c:\Users\student\Desktop\login_wsr\db\LoginDB.mdf;
+                          Integrated Security=True;
+                          Connect Timeout=30;
+                          User Instance=True";
+            SqlConnection sqlcon = new SqlConnection(connectionString);
+            string query = "Select * from tbl_login Where username = '" + txtUSER.Text.Trim() + "' and password = '" + txtPASSWORD.Text.Trim() + "'";
+            SqlDataAdapter sda = new SqlDataAdapter(query, sqlcon);
+            DataTable dtbl = new DataTable();
+            sda.Fill(dtbl);
+            if(dtbl.Rows.Count == 1)
+            {
+                Panel objPanel = new Panel();
+                this.Hide();
+                objPanel.Show();
+            }
+            else
+            {
+                MessageBox.Show("Bad username or password");
+            }
         }
     }
 }
