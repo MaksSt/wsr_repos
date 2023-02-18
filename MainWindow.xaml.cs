@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Data;
-using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using System.Linq;
+using Login.Models;
 
 namespace Login
 {
@@ -16,6 +17,7 @@ namespace Login
         {
             InitializeComponent();
         }
+
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -38,44 +40,24 @@ namespace Login
         public int code = RandomValue();
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;
-                          Integrated Security=True;
-                          Initial Catalog=LoginDB";
-            SqlConnection sqlcon = new SqlConnection(connectionString);
-            try
+            using (LoginDbContext db = new LoginDbContext())
             {
-                if (sqlcon.State == ConnectionState.Closed)
+                // получаем объекты из бд и выводим на консоль
+                object? user = db.Elemens.ToList().Where(u => txtUSER.Text == u.Username && txtPASSWORD.Password == u.Password).LastOrDefault();
+                if (user is Elemen)
                 {
-                    sqlcon.Open();
-                    string query = "SELECT COUNT(1) FROM Login WHERE username=@Username AND password=@Password";
-                    SqlCommand sqlCmd = new SqlCommand(query, sqlcon);
-                    sqlCmd.CommandType = CommandType.Text;
-                    sqlCmd.Parameters.AddWithValue("@Username", txtUSER.Text);
-                    sqlCmd.Parameters.AddWithValue("@Password", txtPASSWORD.Password);
-                    int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
-                    if (count == 1)
-                    {
-                        this.blockCode.Visibility = System.Windows.Visibility.Visible;
-                        this.txtCode.Visibility = System.Windows.Visibility.Visible;
-                        MessageBox.Show($"Code = {code}");
-                        this.btnLogin.Visibility = System.Windows.Visibility.Collapsed;
-                        this.btnLogin2.Visibility = System.Windows.Visibility.Visible;
-                        this.txtUSER.IsEnabled = false;
-                        this.txtPASSWORD.IsEnabled = false;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Bad username or password");
-                    }
+                    this.blockCode.Visibility = Visibility.Visible;
+                    this.txtCode.Visibility = Visibility.Visible;
+                    MessageBox.Show($"Code = {code}");
+                    this.txtUSER.IsEnabled = false;
+                    this.txtPASSWORD.IsEnabled = false;
+                    btnLogin.Click -= btnLogin_Click;
+                    btnLogin.Click += btnLogin2_Click;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                sqlcon.Close();
+                else
+                {
+                    MessageBox.Show("Bad username or password");
+                }
             }
         }
         private void btnLogin2_Click(object sender, RoutedEventArgs e)
